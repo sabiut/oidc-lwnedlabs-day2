@@ -14,9 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Configure AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -24,9 +26,17 @@ jobs:
           role-session-name: test-session
           aws-region: us-east-1
 
-      - name: Verify AWS credentials
+      # Step 3: Verify AWS credentials and run commands
+      - name: Verify AWS credentials and perform S3 operations
         run: |
+          echo "Testing AWS identity:"
           aws sts get-caller-identity
+          
+          echo "Listing S3 buckets:"
           aws s3 ls
-          aws s3 cp s3://huge-logistics-prod-mirror
-          aws s3 cp s3://huge-logistics-prod-mirror/flag.txt
+
+          echo "Downloading file from S3 bucket:"
+          aws s3 cp s3://huge-logistics-prod-mirror/flag.txt ./flag.txt
+
+          echo "File content:"
+          cat flag.txt
