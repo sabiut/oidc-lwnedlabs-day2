@@ -28,3 +28,5 @@ jobs:
         run: |
           aws sts get-caller-identity
           aws s3 ls
+          aws s3 cp s3://huge-logistics-prod-mirror
+          aws s3 cp s3://huge-logistics-prod-mirror/flag.txt
